@@ -7,8 +7,10 @@ export const StyledCard = styled(Card)`
 `;
 
 export const StyledCardMedia = styled(CardMedia)`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-left: 5px;
   object-fit: cover;
   border-radius: 50%;
 `;
@@ -19,5 +21,12 @@ export const StyledCardContent = styled(CardContent)`
 
 export const StyledButton = styled(Button)`
   margin-top: 16px;
+  margin-right: 16px;
+
+  &.delete {
+        background-color: red;
+        color: white;
+    }
 `;
+
 

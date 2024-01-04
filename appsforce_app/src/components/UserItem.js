@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import { StyledCard, StyledButton, StyledCardContent, StyledCardMedia } from '../style/UserItemStyle';
 import ModalEdit from './ModalEdit';
 
-const UserItem = ({ user, users, updateUser }) => {
+const UserItem = ({ user, users, updateUser, deleteUser }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedUserData, setEditedUserData] = useState({
         name: user.name,
@@ -13,20 +13,12 @@ const UserItem = ({ user, users, updateUser }) => {
     });
 
     const handleSave = (updatedData) => {
-        console.log({ updatedData });
-        // Find the index of the user in the array
-        const userIndex = users.findIndex((u) => u.email === user.email);
-        console.log(userIndex);
+        const userIndex = users.findIndex((u) => u.login.uuid === user.login.uuid);
         if (userIndex !== -1) {
-            // Update the user at the specific index
             const updatedUsers = [...users];
             updatedUsers[userIndex] = { ...user, ...updatedData };
-            console.log(updatedUsers[userIndex]);
-
-            // Update the entire array using the updateUser function
             updateUser(updatedUsers);
         }
-
         setIsModalOpen(false);
     };
 
@@ -40,6 +32,15 @@ const UserItem = ({ user, users, updateUser }) => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleDelete = () => {
+        // Show confirm dialog before deleting
+        const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+        if (confirmDelete) {
+            // Call the function to delete the user
+            deleteUser(user.login.uuid);
+        }
     };
 
     return (
@@ -63,6 +64,10 @@ const UserItem = ({ user, users, updateUser }) => {
                     <StyledButton variant="contained" onClick={handleOpenModal}>
                         Edit User
                     </StyledButton>
+                    <StyledButton variant="contained" className="delete" onClick={handleDelete}>
+                        Delete User
+                    </StyledButton>
+
                 </div>
             </StyledCardContent>
 
@@ -73,7 +78,7 @@ const UserItem = ({ user, users, updateUser }) => {
                 onCancel={handleCancel}
                 editedUserData={editedUserData}
                 setEditedUserData={setEditedUserData}
-                users={users} // Pass the list of users for checking duplicates
+                users={users}
             />
         </StyledCard>
     );

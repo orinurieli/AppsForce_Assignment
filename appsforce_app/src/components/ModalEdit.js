@@ -48,7 +48,8 @@ const ModalEdit = ({ isOpen, onClose, onSave, editedUserData, setEditedUserData,
 
     const handleSave = () => {
         if (validateForm()) {
-            setEditedUserData({
+            setEditedUserData((prevEditedUserData) => ({
+                ...prevEditedUserData,
                 name: {
                     first: editedData.name.split(' ')[0],
                     last: editedData.name.split(' ')[1],
@@ -57,11 +58,9 @@ const ModalEdit = ({ isOpen, onClose, onSave, editedUserData, setEditedUserData,
                     city: editedData.location.split(' ')[0],
                     country: editedData.location.split(' ')[1],
                 },
-
                 email: editedData.email,
-            });
+            }));
 
-            // Close the modal
             onSave(editedUserData);
         }
     };
