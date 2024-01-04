@@ -1,8 +1,6 @@
-// AddUserForm.jsx
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
 
-// Function to generate a random alphanumeric string with a specific length
 const generateShortUuid = (length) => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -28,13 +26,13 @@ const AddUserForm = ({ isOpen, onClose, addUser }) => {
         const { name, value } = e.target;
 
         console.log(name, value);
-        if (name === "email") {// Update the newUser object based on the input field name
+        if (name === "email") {
             setNewUser((prevUser) => ({
                 ...prevUser,
                 [name]: name === 'name' ? { ...prevUser.name, [e.target.id]: value } : value,
             }));
         }
-        else {// Update the nested fields correctly
+        else { // Update the nested fields correctly
             setNewUser((prevUser) => ({
                 ...prevUser,
                 [name.includes('.') ? name.split('.')[0] : name]: {
@@ -48,7 +46,6 @@ const AddUserForm = ({ isOpen, onClose, addUser }) => {
 
     const handleSubmit = () => {
         // Todo: Add validation logic if needed
-
         // Todo: upload image logic?
         addUser(newUser);
 

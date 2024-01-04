@@ -1,3 +1,5 @@
+// Not Supported - had a bug in react version for some reason
+// If I had more time I would use more hooks.
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 

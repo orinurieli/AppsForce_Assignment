@@ -1,4 +1,3 @@
-// UserItem.jsx
 import React, { useState } from 'react';
 import { Typography } from '@mui/material';
 import { StyledCard, StyledButton, StyledCardContent, StyledCardMedia } from '../style/UserItemStyle';
@@ -38,7 +37,6 @@ const UserItem = ({ user, users, updateUser, deleteUser }) => {
         // Show confirm dialog before deleting
         const confirmDelete = window.confirm('Are you sure you want to delete this user?');
         if (confirmDelete) {
-            // Call the function to delete the user
             deleteUser(user.login.uuid);
         }
     };
