@@ -1,37 +1,45 @@
+// UserItem.jsx
 import React, { useState } from 'react';
-import { Modal, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { StyledCard, StyledButton, StyledCardContent, StyledCardMedia } from '../style/UserItemStyle';
+import ModalEdit from './ModalEdit';
 
-const UserItem = ({ user, updateUser }) => {
-    const [isEditing, setIsEditing] = useState(false);
+const UserItem = ({ user, users, updateUser }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedUserData, setEditedUserData] = useState({
         name: user.name,
         email: user.email,
         location: user.location,
     });
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    };
+    const handleSave = (updatedData) => {
+        console.log({ updatedData });
+        // Find the index of the user in the array
+        const userIndex = users.findIndex((u) => u.email === user.email);
+        console.log(userIndex);
+        if (userIndex !== -1) {
+            // Update the user at the specific index
+            const updatedUsers = [...users];
+            updatedUsers[userIndex] = { ...user, ...updatedData };
+            console.log(updatedUsers[userIndex]);
 
-    const handleSave = () => {
-        // Implement validation logic here before updating the user
-        // ...
+            // Update the entire array using the updateUser function
+            updateUser(updatedUsers);
+        }
 
-        // updateUser(user.login.uuid, editedUserData);
-        setIsEditing(false);
+        setIsModalOpen(false);
     };
 
     const handleCancel = () => {
-        setIsEditing(false);
+        setIsModalOpen(false);
     };
 
     const handleOpenModal = () => {
-        setIsEditing(true);
+        setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsEditing(false);
+        setIsModalOpen(false);
     };
 
     return (
@@ -51,28 +59,22 @@ const UserItem = ({ user, updateUser }) => {
                 <Typography variant="body1" color="textSecondary">
                     Location: {user.location.city}, {user.location.country}
                 </Typography>
-
-                {isEditing ? (
-                    <div>
-                        {/* ... (existing edit logic) */}
-                        <StyledButton variant="contained" onClick={handleSave}>
-                            Save
-                        </StyledButton>
-                        <StyledButton variant="contained" onClick={handleCancel}>
-                            Cancel
-                        </StyledButton>
-                    </div>
-                ) : (
-                    <div>
-                        <StyledButton variant="contained" onClick={handleEdit}>
-                            Edit
-                        </StyledButton>
-                        <StyledButton variant="contained" onClick={handleOpenModal}>
-                            Edit with Modal
-                        </StyledButton>
-                    </div>
-                )}
+                <div>
+                    <StyledButton variant="contained" onClick={handleOpenModal}>
+                        Edit User
+                    </StyledButton>
+                </div>
             </StyledCardContent>
+
+            <ModalEdit
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                editedUserData={editedUserData}
+                setEditedUserData={setEditedUserData}
+                users={users} // Pass the list of users for checking duplicates
+            />
         </StyledCard>
     );
 };
