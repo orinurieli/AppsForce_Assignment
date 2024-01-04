@@ -1,44 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container, Typography, Paper } from '@mui/material';
 import useFetchData from '../hooks/useFetchData';
-import useUserState from '../hooks/useUserState';
 import UserItem from './UserItem';
+import axios from 'axios';
 
+
+const url = 'https://randomuser.me/api/?results=10';
 
 const UserList = () => {
-    const { data, loading, error } = useFetchData();
-    const { users, updateUser, setUsers } = useUserState(data);
+    // const { data, loading, error } = useFetchData();
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        if (data) setUsers(data)
-    }, [data])
+        getData(url).then((res) => {
+            setUsers(res)
+        })
+    }, []);
 
-    if (loading) {
-        return (
-            <Container>
-                <CircularProgress />
-            </Container>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <Container>
+    //             <CircularProgress />
+    //         </Container>
+    //     );
+    // }
 
-    if (error) {
-        return (
-            <Container>
-                <Typography variant="h6" color="error">
-                    Error: {error.message}
-                </Typography>
-            </Container>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <Container>
+    //             <Typography variant="h6" color="error">
+    //                 Error: {error.message}
+    //             </Typography>
+    //         </Container>
+    //     );
+    // }
 
     return (
         <Container>
             <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
                 <Typography variant="h5" component="div" gutterBottom>
-                    User List
+                    Users List
                 </Typography>
                 {users.map((user) => (
-                    <UserItem key={user.login.uuid} user={user} updateUser={updateUser} />
+                    <UserItem key={user.login.uuid} user={user} />
                 ))}
             </Paper>
         </Container>
@@ -46,3 +50,14 @@ const UserList = () => {
 };
 
 export default UserList;
+
+
+async function getData(url) {
+
+    return axios.get(url).then((response) => {
+        return response.data.results
+    }).catch((e) => {
+        return e;
+    })
+
+}

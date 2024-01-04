@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Button } from '@mui/material';
 
 export const StyledCard = styled(Card)`
   display: flex;
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  margin-bottom: 16px;
 `;
 
 export const StyledCardMedia = styled(CardMedia)`
@@ -14,10 +14,10 @@ export const StyledCardMedia = styled(CardMedia)`
 `;
 
 export const StyledCardContent = styled(CardContent)`
-  margin-left: ${({ theme }) => theme.spacing(2)}px;
+  margin-left: 16px;
 `;
 
 export const StyledButton = styled(Button)`
-  margin-top: ${({ theme }) => theme.spacing(2)}px;
+  margin-top: 16px;
 `;
 

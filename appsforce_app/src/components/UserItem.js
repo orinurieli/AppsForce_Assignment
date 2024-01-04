@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Typography } from '@mui/material';
-
-import EditModal from './EditModal';
-import {
-    StyledCard,
-    StyledCardMedia,
-    StyledCardContent,
-    StyledButton,
-} from '../style/UserItemStyles';
+import { StyledCard, StyledButton, StyledCardContent, StyledCardMedia } from '../style/UserItemStyle';
 
 const UserItem = ({ user, updateUser }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedUserData, setEditedUserData] = useState({
         name: user.name,
         email: user.email,
@@ -26,7 +18,7 @@ const UserItem = ({ user, updateUser }) => {
         // Implement validation logic here before updating the user
         // ...
 
-        updateUser(user.login.uuid, editedUserData);
+        // updateUser(user.login.uuid, editedUserData);
         setIsEditing(false);
     };
 
@@ -35,11 +27,11 @@ const UserItem = ({ user, updateUser }) => {
     };
 
     const handleOpenModal = () => {
-        setIsModalOpen(true);
+        setIsEditing(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false);
+        setIsEditing(false);
     };
 
     return (
@@ -63,6 +55,12 @@ const UserItem = ({ user, updateUser }) => {
                 {isEditing ? (
                     <div>
                         {/* ... (existing edit logic) */}
+                        <StyledButton variant="contained" onClick={handleSave}>
+                            Save
+                        </StyledButton>
+                        <StyledButton variant="contained" onClick={handleCancel}>
+                            Cancel
+                        </StyledButton>
                     </div>
                 ) : (
                     <div>
@@ -75,10 +73,6 @@ const UserItem = ({ user, updateUser }) => {
                     </div>
                 )}
             </StyledCardContent>
-
-            <Modal open={isModalOpen} onClose={handleCloseModal}>
-                <EditModal user={user} updateUser={updateUser} onClose={handleCloseModal} />
-            </Modal>
         </StyledCard>
     );
 };
